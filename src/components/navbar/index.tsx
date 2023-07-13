@@ -5,9 +5,9 @@ const Navbar = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="navbar bg-base-100 px-12">
+    <div className="fixed z-40 flex w-full justify-between  bg-base-100 px-12 py-2">
       {/* LOGO */}
-      <div className="navbar-start">
+      <div>
         <a className="t btn-ghost btn font-courgette text-lg normal-case">
           <div className="flex flex-col">
             <span>
@@ -20,7 +20,7 @@ const Navbar = () => {
       {/* NAVIGATION */}
       <NavItems />
       {/* PROFILE */}
-      <div className="navbar-end">
+      <div>
         {/* Profile Dropdown */}
         {status === "authenticated" ? (
           <div className="dropdown-end dropdown">

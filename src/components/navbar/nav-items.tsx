@@ -3,29 +3,45 @@ import Link from "next/link";
 
 const NavItems = () => {
   return (
-    <nav className="navbar-center hidden lg:flex">
-      <ul className="menu menu-horizontal space-x-2 px-1 font-semibold">
+    <nav>
+      <ul className="menu menu-horizontal space-x-2 px-1 text-lg font-semibold">
         <li>
-          <Link href="/">Accueil</Link>
+          <Link href="/" className="hover:text-primary">
+            Accueil
+          </Link>
         </li>
         <li tabIndex={0}>
-          <details>
+          <details className="z-10">
             <summary>Produits</summary>
             <ul className="p-2">
               <li>
-                <Link href="/produits/habillement">Habillement</Link>
+                <Link
+                  href="/produits/habillement"
+                  className="hover:text-primary"
+                >
+                  Habillement
+                </Link>
               </li>
               <li>
-                <Link href="/produits/alimentaire">Alimentaire</Link>
+                <Link
+                  href="/produits/alimentaire"
+                  className="hover:text-primary"
+                >
+                  Alimentaire
+                </Link>
               </li>
             </ul>
           </details>
         </li>
         <li>
-          <Link href="/contact">Contact</Link>
+          <Link href="/contact" className="hover:text-primary">
+            Contact
+          </Link>
         </li>
         <li>
-          <Link href="/a-propos">A Propos</Link>
+          <Link href="/a-propos" className="hover:text-primary">
+            A Propos
+          </Link>
         </li>
         <li>
           <div
@@ -36,7 +52,7 @@ const NavItems = () => {
               href="/9offa"
               className="tooltip flex flex-col items-center justify-center"
             >
-              <ShoppingBag />
+              <ShoppingBag className="h-7 w-7 hover:text-primary" />
             </Link>
           </div>
         </li>

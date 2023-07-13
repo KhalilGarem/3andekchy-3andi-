@@ -1,11 +1,9 @@
 const Ahana = () => {
   return (
-    <div className="grid grid-cols-2 px-48 py-8">
+    <section className="-mt-20 grid grid-cols-2 px-48 py-8">
       <div className="flex flex-col items-center justify-center gap-2">
-        <h1 className="first-letter text-3xl font-bold text-primary">
-          Qui somme nous?
-        </h1>
-        <p className="font-semibold">
+        <h1 className="text-3xl font-bold text-primary">Qui somme nous?</h1>
+        <p className="text-lg font-semibold">
           3andekchy 3andi est une plateforme de vente en ligne des produits
           terroir et artisanaux.
         </p>
@@ -23,7 +21,7 @@ const Ahana = () => {
           <h1 className="font-semibold">! المستحيل مش تونسي</h1>
         </div> */}
       </div>
-    </div>
+    </section>
   );
 };
 

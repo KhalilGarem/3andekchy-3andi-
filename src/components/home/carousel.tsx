@@ -1,6 +1,6 @@
 const Carousel = () => {
   return (
-    <div className="flex justify-center">
+    <section className="flex justify-center bg-white py-8">
       <div className="carousel h-[500px] w-[1450px] rounded-xl">
         <div id="slide1" className="carousel-item relative w-full">
           <img src="/images/efe7.jpg" className="w-full" />
@@ -37,7 +37,7 @@ const Carousel = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
