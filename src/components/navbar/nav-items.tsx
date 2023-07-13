@@ -4,7 +4,7 @@ import Link from "next/link";
 const NavItems = () => {
   return (
     <nav>
-      <ul className="menu menu-horizontal space-x-2 px-1 text-lg font-semibold">
+      <ul className="menu menu-horizontal space-x-2 px-1 font-semibold">
         <li>
           <Link href="/" className="hover:text-primary">
             Accueil
@@ -12,7 +12,7 @@ const NavItems = () => {
         </li>
         <li tabIndex={0}>
           <details className="z-10">
-            <summary>Produits</summary>
+            <summary className="hover:text-primary">Produits</summary>
             <ul className="p-2">
               <li>
                 <Link
@@ -52,7 +52,7 @@ const NavItems = () => {
               href="/9offa"
               className="tooltip flex flex-col items-center justify-center"
             >
-              <ShoppingBag className="h-7 w-7 hover:text-primary" />
+              <ShoppingBag className="hover:text-primary" />
             </Link>
           </div>
         </li>

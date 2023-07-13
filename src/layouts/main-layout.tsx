@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Footer from "~/components/footer";
 import Navbar from "~/components/navbar";
 
 interface MainLayoutProps {
@@ -18,6 +19,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       </Head>
       <Navbar />
       <div>{children}</div>
+      <Footer />
     </>
   );
 };

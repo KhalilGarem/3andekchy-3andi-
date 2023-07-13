@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Ahana from "~/components/home/ahana";
 import Carousel from "~/components/home/carousel";
+import Concept from "~/components/home/concept";
 import Features from "~/components/home/features";
 import NotreBut from "~/components/home/notre-but";
 
@@ -25,6 +26,8 @@ export default function Home() {
         <NotreBut />
         {/* Features Section */}
         <Features />
+        {/* Concept Section */}
+        <Concept />
       </main>
     </>
   );

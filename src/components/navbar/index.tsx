@@ -1,21 +1,25 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import NavItems from "./nav-items";
+import Link from "next/link";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="fixed z-40 flex w-full justify-between  bg-base-100 px-12 py-2">
+    <div className="fixed z-40 flex w-full justify-between  bg-base-100 px-12 py-1 shadow-sm">
       {/* LOGO */}
       <div>
-        <a className="t btn-ghost btn font-courgette text-lg normal-case">
+        <Link
+          href="/"
+          className="btn-ghost btn font-courgette text-lg normal-case"
+        >
           <div className="flex flex-col">
             <span>
               3andekchy <span className="text-primary">?</span>
             </span>
             <span className="-mt-2">3andi</span>
           </div>
-        </a>
+        </Link>
       </div>
       {/* NAVIGATION */}
       <NavItems />
