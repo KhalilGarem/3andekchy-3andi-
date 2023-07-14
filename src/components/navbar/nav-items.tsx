@@ -1,7 +1,10 @@
 import { ShoppingBag } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 const NavItems = () => {
+  const { status } = useSession();
+
   return (
     <nav>
       <ul className="menu menu-horizontal space-x-2 px-1 font-semibold">
@@ -11,27 +14,9 @@ const NavItems = () => {
           </Link>
         </li>
         <li tabIndex={0}>
-          <details className="z-10">
-            <summary className="hover:text-primary">Produits</summary>
-            <ul className="p-2">
-              <li>
-                <Link
-                  href="/produits/habillement"
-                  className="hover:text-primary"
-                >
-                  Habillement
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/produits/alimentaire"
-                  className="hover:text-primary"
-                >
-                  Alimentaire
-                </Link>
-              </li>
-            </ul>
-          </details>
+          <Link href="/bazar" className="hover:text-primary">
+            Bazar
+          </Link>
         </li>
         <li>
           <Link href="/contact" className="hover:text-primary">
@@ -43,19 +28,21 @@ const NavItems = () => {
             A Propos
           </Link>
         </li>
-        <li>
-          <div
-            className="tooltip-primary tooltip tooltip-bottom"
-            data-tip="القفة"
-          >
-            <Link
-              href="/9offa"
-              className="tooltip flex flex-col items-center justify-center"
+        {status === "authenticated" && (
+          <li>
+            <div
+              className="tooltip-primary tooltip tooltip-bottom"
+              data-tip="القفة"
             >
-              <ShoppingBag className="hover:text-primary" />
-            </Link>
-          </div>
-        </li>
+              <Link
+                href="/9offa"
+                className="tooltip flex flex-col items-center justify-center"
+              >
+                <ShoppingBag className="hover:text-primary" />
+              </Link>
+            </div>
+          </li>
+        )}
       </ul>
     </nav>
   );

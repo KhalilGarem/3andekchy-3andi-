@@ -9,6 +9,10 @@ export default {
     extend: {
       fontFamily: {
         courgette: ["Courgette"],
+        amaranth: ["Amaranth"],
+        roboto: ["Roboto Condensed"],
+        reem: ["Reem Kufi Fun"],
+        noto: ["Noto Nastaliq Urdu"],
       },
     },
   },

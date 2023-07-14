@@ -1,4 +1,5 @@
 import Head from "next/head";
+import ArtSection from "~/components/contact/art-section";
 import ContactForm from "~/components/contact/contact-form";
 import ContactInfoSection from "~/components/contact/contact-info-section";
 
@@ -15,8 +16,8 @@ export default function Contact() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="min-h-screen pt-12">
-        {/* Page Title */}
-
+        {/* Art Section */}
+        <ArtSection />
         {/* Contacts */}
         <ContactInfoSection />
         {/* Contact Form */}

@@ -11,12 +11,11 @@ import ContactCard from "./contact-card";
 const ContactInfoSection = () => {
   return (
     <div>
-      <div className="py-12">
-        <h1 className="text-center text-5xl font-bold text-primary">
-          Contactez-Nous
-        </h1>
-      </div>
-      <div className="flex items-center justify-center bg-white py-8">
+      <div className="bg-white py-4"></div>
+      <h1 className="bg-white text-center text-4xl font-bold text-primary">
+        Contactez-Nous
+      </h1>
+      <div className="flex items-center justify-center bg-white py-6">
         <div className="rounded-box relative flex items-center justify-center gap-16 px-24 py-6">
           <ContactCard
             key={1}

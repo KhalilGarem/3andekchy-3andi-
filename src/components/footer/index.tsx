@@ -13,7 +13,7 @@ const Footer = () => {
         <div>
           <h1 className="text-xl font-bold">Qui Somme nous</h1>
           {/* LOGO */}
-          <div className="font-courgette text-lg">
+          <div className="w-fit font-courgette text-lg">
             <Link
               href="/"
               className="flex flex-col font-extrabold text-primary"

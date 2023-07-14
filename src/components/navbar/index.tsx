@@ -39,6 +39,9 @@ const Navbar = () => {
               className="dropdown-content menu rounded-box menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
             >
               <li>
+                <Link href="/mes-produit">Mes Produit</Link>
+              </li>
+              <li>
                 <span onClick={() => void signOut()}>Logout</span>
               </li>
             </ul>
