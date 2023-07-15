@@ -70,4 +70,19 @@ export const productRouter = createTRPCRouter({
       });
       return product;
     }),
+  // Get all products of a user query
+  getProductsByUser: protectedProcedure.query(async ({ ctx }) => {
+    const products = await ctx.prisma.product.findMany({
+      where: {
+        owner: {
+          id: ctx.session.user.id,
+        },
+      },
+      include: {
+        image: true,
+        owner: true,
+      },
+    });
+    return products;
+  }),
 });

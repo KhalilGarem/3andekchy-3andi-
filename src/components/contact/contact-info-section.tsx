@@ -12,7 +12,7 @@ const ContactInfoSection = () => {
   return (
     <div>
       <div className="bg-white py-4"></div>
-      <h1 className="bg-white text-center text-4xl font-bold text-primary">
+      <h1 className="bg-white text-center font-amaranth text-4xl font-bold text-primary">
         Contactez-Nous
       </h1>
       <div className="flex items-center justify-center bg-white py-6">

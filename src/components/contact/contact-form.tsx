@@ -1,6 +1,6 @@
 const ContactForm = () => {
   return (
-    <div className="flex justify-center py-6">
+    <div className="flex justify-center py-6 font-amaranth">
       <div>
         <div className="py-6">
           <h1 className="text-center text-5xl font-bold underline decoration-primary underline-offset-4">

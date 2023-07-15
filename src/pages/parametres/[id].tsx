@@ -1,7 +1,17 @@
+import { Pencil } from "lucide-react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import ArtSection from "~/components/produit/art-section";
+import ArtSection from "~/components/parametres/art-section";
+import DeleteModal from "~/components/parametres/delete-modal";
+import EditName from "~/components/parametres/edit-name";
 import { api } from "~/utils/api";
+
+declare global {
+  interface Window {
+    delete_modal: any;
+    edit_name: any;
+  }
+}
 
 /**
  * Page Produit
@@ -41,8 +51,14 @@ export default function Product() {
             {/* Product Name & Type */}
             <div className="flex items-center justify-between px-12">
               {/* Product Name */}
-              <h1 className="font-amaranth text-6xl font-bold capitalize">
+              <h1 className="flex items-center gap-4 font-amaranth text-6xl font-bold capitalize">
                 {product.name}
+                <button
+                  className="btn-square btn"
+                  onClick={() => window.edit_name.showModal()}
+                >
+                  <Pencil className="h-8 w-8" />
+                </button>
               </h1>
               {/* Product Type */}
               <p className="font-courgette text-xl font-bold">{product.type}</p>
@@ -52,8 +68,11 @@ export default function Product() {
               <div className="space-y-6">
                 {/* Product Description */}
                 <div className="space-y-2">
-                  <h1 className="font-amaranth text-xl font-bold text-primary">
+                  <h1 className=" flex gap-3 font-amaranth text-xl font-bold text-primary">
                     Description:{" "}
+                    <button className="btn-square btn-sm btn -mt-1">
+                      <Pencil className="" />
+                    </button>
                   </h1>
                   <p className="font-roboto text-lg font-semibold">
                     {product.description}
@@ -75,6 +94,9 @@ export default function Product() {
                 <div className="flex gap-2">
                   <h1 className="font-amaranth text-xl font-bold text-primary">
                     Price:{" "}
+                    <button className="btn-square btn-sm btn -mt-1">
+                      <Pencil className="" />
+                    </button>
                   </h1>
                   <p className="font-roboto text-lg font-semibold">
                     {product.price} DT.
@@ -84,6 +106,9 @@ export default function Product() {
                 <div className="flex gap-2">
                   <h1 className="font-amaranth text-xl font-bold text-primary">
                     Quantity:{" "}
+                    <button className="btn-square btn-sm btn -mt-1">
+                      <Pencil className="" />
+                    </button>
                   </h1>
                   <p className="font-roboto text-lg font-semibold">
                     {product.quantity}
@@ -93,10 +118,17 @@ export default function Product() {
             </div>
             {/* Order now Button */}
             <div className="flex justify-center">
-              <button className="btn-primary btn">إشري تربح</button>
+              <button
+                className="btn-primary btn"
+                onClick={() => window.delete_modal.showModal()}
+              >
+                Supprimer
+              </button>
             </div>
           </div>
         </div>
+        <DeleteModal />
+        <EditName />
       </main>
     </>
   );

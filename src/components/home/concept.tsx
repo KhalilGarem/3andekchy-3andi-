@@ -1,8 +1,10 @@
 const Concept = () => {
   return (
-    <section className="flex items-center justify-center gap-32 bg-white px-44 py-12">
+    <section className="flex items-center justify-center gap-32 bg-white px-44 py-12 font-roboto">
       <div className="space-y-4 font-semibold">
-        <h1 className="text-3xl font-bold text-primary">Concept</h1>
+        <h1 className="font-amaranth text-3xl font-bold text-primary">
+          Concept
+        </h1>
         <p>
           Nous collaborons avec des artisan.e.s et groupements d'artisan.e.s
           dans différentes régions de la Tunisie afin de vous proposer une

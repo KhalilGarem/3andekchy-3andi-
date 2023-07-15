@@ -1,5 +1,6 @@
 import Head from "next/head";
 import ArtSection from "~/components/mes-produit/art-section";
+import Dashboard from "~/components/mes-produit/dashboard";
 
 /**
  * Page Mes Produits
@@ -16,6 +17,8 @@ export default function MesProduits() {
       <main className="pt-16">
         {/* Art Section */}
         <ArtSection />
+        {/* Dashboard */}
+        <Dashboard />
       </main>
     </>
   );
