@@ -4,6 +4,7 @@ import Alimentaire from "~/components/bazar/alimentaire";
 import ArtSection from "~/components/bazar/art-section";
 import Habillment from "~/components/bazar/habillment";
 import ProductsSelect from "~/components/bazar/products-select";
+import SearchSection from "~/components/bazar/search-section";
 
 /**
  * Page Bazar
@@ -28,6 +29,8 @@ export default function Bazar() {
           selectHabillment={() => setSelctedProductsType(false)}
           selectAlimentaire={() => setSelctedProductsType(true)}
         />
+        {/* Search Section */}
+        <SearchSection selctedProductType={selctedProductType} />
         {/* Habillment */}
         {!selctedProductType && <Habillment />}
         {/* Alimentaire */}

@@ -12,7 +12,7 @@ const ProductsSelect: React.FC<ProductsSelectProps> = ({
   selectAlimentaire,
 }) => {
   return (
-    <div className="flex justify-center gap-32 bg-white py-12">
+    <div className="flex justify-center gap-32 bg-white py-6">
       {/* Habillment */}
       <div
         className="flex flex-col items-center justify-center gap-2 hover:cursor-pointer"

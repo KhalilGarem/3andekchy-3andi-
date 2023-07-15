@@ -1,15 +1,88 @@
 import Head from "next/head";
 import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { type ImageType } from "react-images-uploading";
 import ArtSection from "~/components/nouveau-produit/art-section";
 import ImageUploader from "~/components/nouveau-produit/image-uploader";
+import {
+  CreateProductInputType,
+  createProductSchema,
+} from "~/validation/createProductSchema";
+import { useForm } from "react-hook-form";
+import { api } from "~/utils/api";
+import uploadImageService from "~/services/uploadImageService";
+import { useRouter } from "next/navigation";
 
 /**
  * Page Nouveau Produit
  * Une page dynamic contient le formulaire d'ajout de produit
  */
 export default function NouveauProduit() {
+  // Router
+  const router = useRouter();
+
+  // Image State
   const [image, setImage] = useState<ImageType[]>([]);
+
+  // OnSubmit Loading State
+  const [submitLoding, setSubmitLoding] = useState<boolean>(false);
+
+  // Create Product Form Hook
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setError,
+  } = useForm<CreateProductInputType>({
+    resolver: zodResolver(createProductSchema.omit({ imageUrl: true })),
+  });
+
+  // Create Product Mutation
+  const createProductMutation = api.product.createProduct.useMutation({
+    onSuccess: () => {
+      setImage([]);
+      reset();
+      router.push("/mes-produit");
+    },
+  });
+
+  // On Submit Function
+  const onCreateProduct = async (data: CreateProductInputType) => {
+    if (!image[0]) {
+      return setError("imageUrl", {
+        type: "required",
+        message: "Veuillez sélectionner une image.",
+      });
+    }
+
+    try {
+      // Start Loading
+      setSubmitLoding(true);
+      // Upload Images With Upload Service
+      const imageRes = await uploadImageService(image[0]);
+      // Check Service Responses
+      if (!imageRes) {
+        return setError("imageUrl", {
+          type: "required",
+          message: "Erreur lors du téléchargement d'images.",
+        });
+      }
+      // Mutate Product
+      createProductMutation.mutate({
+        ...data,
+        imageUrl: imageRes.secure_url,
+      });
+    } catch (error) {
+      return setError("imageUrl", {
+        type: "required",
+        message: "Erreur lors du téléchargement d'images.",
+      });
+    } finally {
+      // End Loading
+      setSubmitLoding(false);
+    }
+  };
 
   return (
     <>
@@ -21,7 +94,10 @@ export default function NouveauProduit() {
       <main className="pt-16">
         {/* Art Section */}
         <ArtSection />
-        <form className="flex flex-col items-center justify-center bg-white py-12">
+        <form
+          onSubmit={handleSubmit(onCreateProduct)}
+          className="flex flex-col items-center justify-center bg-white py-12"
+        >
           {/* Informative section */}
           <div className="w-[864px] space-y-2 py-4">
             <h1 className="font-amaranth text-3xl font-bold text-primary">
@@ -46,8 +122,11 @@ export default function NouveauProduit() {
               <label htmlFor="type" className="label font-bold">
                 <span className="label-text">Type:</span>
               </label>
-              <select className="select-primary select bg-white">
-                <option disabled selected>
+              <select
+                className="select-primary select bg-white"
+                {...register("type")}
+              >
+                <option disabled selected value={undefined}>
                   Selectionner le type du produit
                 </option>
                 <option>Habillment</option>
@@ -56,7 +135,9 @@ export default function NouveauProduit() {
               {/* Type du produit erreur */}
               <label className="label">
                 <span className="label-text-alt"></span>
-                <span className="label-text-alt text-error"></span>
+                <span className="label-text-alt text-error">
+                  {errors.type?.message}
+                </span>
               </label>
             </div>
             {/* Nom du produit */}
@@ -70,11 +151,14 @@ export default function NouveauProduit() {
                 type="text"
                 placeholder="Entrer le nom du produit ici..."
                 className="input-bordered input-primary input bg-white"
+                {...register("name")}
               />
               {/* Nom du produit erreur */}
               <label className="label">
                 <span className="label-text-alt"></span>
-                <span className="label-text-alt text-error"></span>
+                <span className="label-text-alt text-error">
+                  {errors.name?.message}
+                </span>
               </label>
             </div>
           </div>
@@ -91,11 +175,14 @@ export default function NouveauProduit() {
                 type="number"
                 placeholder="Entrer le prix du produit ici..."
                 className="input-bordered input-primary input bg-white"
+                {...register("price", { valueAsNumber: true })}
               />
               {/* Prix du produit erreur */}
               <label className="label">
                 <span className="label-text-alt"></span>
-                <span className="label-text-alt text-error"></span>
+                <span className="label-text-alt text-error">
+                  {errors.price?.message}
+                </span>
               </label>
             </div>
             {/* Quantité du produit */}
@@ -109,24 +196,33 @@ export default function NouveauProduit() {
                 type="number"
                 placeholder="Entrer le quantité du produit ici..."
                 className="input-bordered input-primary input bg-white"
+                {...register("quantity", { valueAsNumber: true })}
               />
               {/* Quantité du produit erreur */}
               <label className="label">
                 <span className="label-text-alt"></span>
-                <span className="label-text-alt text-error"></span>
+                <span className="label-text-alt text-error">
+                  {errors.quantity?.message}
+                </span>
               </label>
             </div>
           </div>
           {/* Image & Description */}
           <div className="grid grid-cols-2 gap-16">
             {/* Image */}
-            <div>
+            <div className="relative">
               {/* Back Image */}
               <ImageUploader
                 image={image}
                 setImage={setImage}
                 label="Image du produit."
               />
+              {/* Quantité du produit erreur */}
+              <label className="absolute bottom-2 right-0 pr-1">
+                <span className="label-text-alt text-error">
+                  {errors.imageUrl?.message}
+                </span>
+              </label>
             </div>
             {/* Description */}
             <div className="form-control w-[400px]">
@@ -137,17 +233,25 @@ export default function NouveauProduit() {
               <textarea
                 className="textarea-bordered textarea-primary textarea h-[275px] bg-white"
                 placeholder="Entrer la description du produit ici..."
-              ></textarea>
+                {...register("description")}
+              />
               {/* Desctription du produit erreur */}
               <label className="label">
                 <span className="label-text-alt"></span>
-                <span className="label-text-alt text-error"></span>
+                <span className="label-text-alt text-error">
+                  {errors.description?.message}
+                </span>
               </label>
             </div>
           </div>
           {/* Submit */}
           <div className="py-4">
-            <button className="btn-primary btn font-bold">Ajouter</button>
+            <button className="btn-primary btn font-bold">
+              Ajouter{" "}
+              {submitLoding && (
+                <span className="loading loading-ring loading-md"></span>
+              )}
+            </button>
           </div>
         </form>
       </main>
