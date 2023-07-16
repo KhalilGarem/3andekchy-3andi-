@@ -6,7 +6,7 @@ const Navbar = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="fixed z-40 flex w-full justify-between  bg-base-100 px-12 py-1 shadow-sm">
+    <div className="fixed z-40 flex w-full items-center justify-between  bg-base-100 px-12 py-1 shadow-sm">
       {/* LOGO */}
       <div>
         <Link
@@ -47,7 +47,10 @@ const Navbar = () => {
             </ul>
           </div>
         ) : (
-          <button onClick={() => void signIn()} className="btn-primary btn">
+          <button
+            onClick={() => void signIn()}
+            className="btn-primary btn-sm btn"
+          >
             Connecter
           </button>
         )}

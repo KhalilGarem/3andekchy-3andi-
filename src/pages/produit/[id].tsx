@@ -1,3 +1,4 @@
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import ArtSection from "~/components/produit/art-section";
@@ -10,6 +11,9 @@ import { api } from "~/utils/api";
 export default function Product() {
   // Get the router object to access the query parameters
   const { query } = useRouter();
+
+  // Session
+  const { data: session } = useSession();
 
   // Fetch the product data based on the provided id
   const { data: product } = api.product.getProductById.useQuery({
@@ -93,7 +97,13 @@ export default function Product() {
             </div>
             {/* Order now Button */}
             <div className="flex justify-center">
-              <button className="btn-primary btn">إشري تربح</button>
+              {session?.user.role === "admin" ? (
+                <button className="btn-primary btn">
+                  Supprimer ce produit
+                </button>
+              ) : (
+                <button className="btn-primary btn">إشري تربح</button>
+              )}
             </div>
           </div>
         </div>
