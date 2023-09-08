@@ -52,10 +52,10 @@ export default function Product() {
               <p className="font-courgette text-xl font-bold">{product.type}</p>
             </div>
             {/* Product Description & Info */}
-            <div className="flex justify-between gap-32 px-24">
-              <div className="space-y-6">
+            <div className="grid grid-cols-3 gap-32 px-24">
+              <div className="col-span-2 space-y-6">
                 {/* Product Description */}
-                <div className="space-y-2">
+                <div className=" space-y-2">
                   <h1 className="font-amaranth text-xl font-bold text-primary">
                     Description:{" "}
                   </h1>
@@ -78,7 +78,7 @@ export default function Product() {
                 {/* Product Price */}
                 <div className="flex gap-2">
                   <h1 className="font-amaranth text-xl font-bold text-primary">
-                    Price:{" "}
+                    Prix:{" "}
                   </h1>
                   <p className="font-roboto text-lg font-semibold">
                     {product.price} DT.
@@ -87,7 +87,7 @@ export default function Product() {
                 {/* Product Quantity  */}
                 <div className="flex gap-2">
                   <h1 className="font-amaranth text-xl font-bold text-primary">
-                    Quantity:{" "}
+                    Quantité:{" "}
                   </h1>
                   <p className="font-roboto text-lg font-semibold">
                     {product.quantity}

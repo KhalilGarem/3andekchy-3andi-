@@ -35,7 +35,7 @@ const NavItems = () => {
               data-tip="القفة"
             >
               <Link
-                href="/9offa"
+                href="/el-9offa"
                 className="tooltip flex flex-col items-center justify-center"
               >
                 <ShoppingBag className="hover:text-primary" />

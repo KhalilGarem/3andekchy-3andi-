@@ -3,13 +3,19 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import ArtSection from "~/components/parametres/art-section";
 import DeleteModal from "~/components/parametres/delete-modal";
+import EditDescription from "~/components/parametres/edit-description";
 import EditName from "~/components/parametres/edit-name";
+import EditPrice from "~/components/parametres/edit-price";
+import EditQuantity from "~/components/parametres/edit-quantity";
 import { api } from "~/utils/api";
 
 declare global {
   interface Window {
     delete_modal: any;
-    edit_name: any;
+    edit_name_modal: any;
+    edit_description_modal: any;
+    edit_price_modal: any;
+    edit_quantity_modal: any;
   }
 }
 
@@ -55,7 +61,7 @@ export default function Product() {
                 {product.name}
                 <button
                   className="btn-square btn"
-                  onClick={() => window.edit_name.showModal()}
+                  onClick={() => window.edit_name_modal.showModal()}
                 >
                   <Pencil className="h-8 w-8" />
                 </button>
@@ -64,14 +70,17 @@ export default function Product() {
               <p className="font-courgette text-xl font-bold">{product.type}</p>
             </div>
             {/* Product Description & Info */}
-            <div className="flex justify-between gap-32 px-24">
-              <div className="space-y-6">
+            <div className="grid grid-cols-3 gap-32 px-24">
+              <div className="col-span-2 space-y-6">
                 {/* Product Description */}
                 <div className="space-y-2">
                   <h1 className=" flex gap-3 font-amaranth text-xl font-bold text-primary">
                     Description:{" "}
-                    <button className="btn-square btn-sm btn -mt-1">
-                      <Pencil className="" />
+                    <button
+                      className="btn-square btn-sm btn -mt-1"
+                      onClick={() => window.edit_description_modal.showModal()}
+                    >
+                      <Pencil />
                     </button>
                   </h1>
                   <p className="font-roboto text-lg font-semibold">
@@ -94,8 +103,11 @@ export default function Product() {
                 <div className="flex gap-2">
                   <h1 className="font-amaranth text-xl font-bold text-primary">
                     Price:{" "}
-                    <button className="btn-square btn-sm btn -mt-1">
-                      <Pencil className="" />
+                    <button
+                      className="btn-square btn-sm btn -mt-1"
+                      onClick={() => window.edit_price_modal.showModal()}
+                    >
+                      <Pencil />
                     </button>
                   </h1>
                   <p className="font-roboto text-lg font-semibold">
@@ -106,8 +118,11 @@ export default function Product() {
                 <div className="flex gap-2">
                   <h1 className="font-amaranth text-xl font-bold text-primary">
                     Quantity:{" "}
-                    <button className="btn-square btn-sm btn -mt-1">
-                      <Pencil className="" />
+                    <button
+                      className="btn-square btn-sm btn -mt-1"
+                      onClick={() => window.edit_quantity_modal.showModal()}
+                    >
+                      <Pencil />
                     </button>
                   </h1>
                   <p className="font-roboto text-lg font-semibold">
@@ -127,8 +142,29 @@ export default function Product() {
             </div>
           </div>
         </div>
-        <DeleteModal />
-        <EditName />
+        <DeleteModal productId={product.id} />
+        <EditName
+          onCloseEditNameModal={() => window.edit_name_modal.close()}
+          productId={product.id}
+          prductName={product.name}
+        />
+        <EditDescription
+          onCloseEditDescriptionModal={() =>
+            window.edit_description_modal.close()
+          }
+          productId={product.id}
+          prductDescription={product.description}
+        />
+        <EditPrice
+          onCloseEditPriceModal={() => window.edit_price_modal.close()}
+          productId={product.id}
+          prductPrice={product.price}
+        />
+        <EditQuantity
+          onCloseEditQuantityModal={() => window.edit_quantity_modal.close()}
+          productId={product.id}
+          prductQuantity={product.quantity}
+        />
       </main>
     </>
   );

@@ -5,6 +5,7 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 import { createProductSchema } from "~/validation/createProductSchema";
+import { editProductSchema } from "~/validation/editProductShcema";
 
 export const productRouter = createTRPCRouter({
   // Create a product mutation
@@ -16,8 +17,8 @@ export const productRouter = createTRPCRouter({
           type: input.type,
           name: input.name,
           description: input.description,
-          price: Number(input.price),
-          quantity: Number(input.quantity),
+          price: input.price,
+          quantity: input.quantity,
           image: {
             create: {
               url: input.imageUrl,
@@ -55,7 +56,7 @@ export const productRouter = createTRPCRouter({
   getProductById: publicProcedure
     .input(
       z.object({
-        id: z.string(),
+        id: z.string().cuid(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -85,4 +86,55 @@ export const productRouter = createTRPCRouter({
     });
     return products;
   }),
+  // Delete a product mutation
+  deleteProduct: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const product = await ctx.prisma.product.findFirst({
+        where: {
+          id: input.id,
+        },
+      });
+      if (!product) {
+        throw new Error("Product not found");
+      }
+      if (product.userId !== ctx.session.user.id) {
+        throw new Error("You are not the owner of this product");
+      }
+      const deletedProduct = await ctx.prisma.product.delete({
+        where: {
+          id: input.id,
+        },
+      });
+      return deletedProduct;
+    }),
+  // Edit a product mutation
+  editProduct: protectedProcedure
+    .input(editProductSchema)
+    .mutation(async ({ ctx, input }) => {
+      const product = await ctx.prisma.product.findFirst({
+        where: {
+          id: input.id,
+        },
+      });
+      if (!product) {
+        throw new Error("Product not found");
+      }
+      if (product.userId !== ctx.session.user.id) {
+        throw new Error("You are not the owner of this product");
+      }
+      const editedProduct = await ctx.prisma.product.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          ...input,
+        },
+      });
+      return editedProduct;
+    }),
 });

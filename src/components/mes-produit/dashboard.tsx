@@ -4,6 +4,16 @@ import DashboardRow from "./dashboard-row";
 const Dashboard = () => {
   const { data: products } = api.product.getProductsByUser.useQuery();
 
+  console.log(products);
+
+  if (products?.length === 0) {
+    return (
+      <div className="bg-white px-32 py-32 text-center">
+        <p>Aucun produit.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white px-32 py-12">
       <div className="overflow-x-auto">

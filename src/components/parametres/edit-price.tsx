@@ -2,20 +2,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { api } from "~/utils/api";
 import {
-  type EditProductNameInputType,
-  editProductNameSchema,
+  type EditProductPriceInputType,
+  editProductPriceSchema,
 } from "~/validation/editProductShcema";
 
-interface EditNameProps {
-  onCloseEditNameModal: () => void;
+interface EditPriceProps {
+  onCloseEditPriceModal: () => void;
   productId: string;
-  prductName: string;
+  prductPrice: number;
 }
 
-const EditName: React.FC<EditNameProps> = ({
-  onCloseEditNameModal,
+const EditPrice: React.FC<EditPriceProps> = ({
+  onCloseEditPriceModal,
   productId,
-  prductName,
+  prductPrice,
 }) => {
   // Api ctx
   const ctx = api.useContext();
@@ -25,50 +25,50 @@ const EditName: React.FC<EditNameProps> = ({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<EditProductNameInputType>({
-    resolver: zodResolver(editProductNameSchema),
+  } = useForm<EditProductPriceInputType>({
+    resolver: zodResolver(editProductPriceSchema),
     defaultValues: {
       id: productId,
-      name: prductName,
+      price: prductPrice,
     },
   });
 
-  // Edit Product Name mutation
-  const { mutate: editProductName } = api.product.editProduct.useMutation({
+  // Edit Product Price mutation
+  const { mutate: editProductPrice } = api.product.editProduct.useMutation({
     onSuccess: async () => {
       await ctx.product.getProductById.invalidate({ id: productId });
-      onCloseEditNameModal();
+      onCloseEditPriceModal();
     },
   });
 
   // onSubmit
-  const onSubmit = (data: EditProductNameInputType) => {
-    editProductName(data);
+  const onSubmit = (data: EditProductPriceInputType) => {
+    editProductPrice(data);
   };
 
   return (
-    <dialog id="edit_name_modal" className="modal">
+    <dialog id="edit_price_modal" className="modal">
       <form
         onSubmit={handleSubmit(onSubmit)}
         method="dialog"
         className="modal-box"
       >
         <h3 className="font-amaranth text-lg font-bold text-primary">
-          Modifier le nom du produit
+          Modifier le prix du produit
         </h3>
         <div className="w-full py-8">
           <input
             type="text"
             placeholder="Entrez le nouveau nom ici ..."
             className="input-bordered input-primary input w-full"
-            {...register("name")}
+            {...register("price", { valueAsNumber: true })}
           />
           <span className="label-text-alt text-error">
-            {errors.name?.message}
+            {errors.price?.message}
           </span>
         </div>
         <div className="modal-action">
-          <button className="btn" type="button" onClick={onCloseEditNameModal}>
+          <button className="btn" type="button" onClick={onCloseEditPriceModal}>
             Annuler
           </button>
           <button className="btn-primary btn" type="submit">
@@ -80,4 +80,4 @@ const EditName: React.FC<EditNameProps> = ({
   );
 };
 
-export default EditName;
+export default EditPrice;

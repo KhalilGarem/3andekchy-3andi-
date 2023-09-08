@@ -1,4 +1,18 @@
-const DeleteModal = () => {
+import { useRouter } from "next/navigation";
+import { api } from "~/utils/api";
+
+interface DeleteModalProps {
+  productId: string;
+}
+
+const DeleteModal: React.FC<DeleteModalProps> = ({ productId }) => {
+  // Router
+  const router = useRouter();
+
+  const { mutate: deleteProduct } = api.product.deleteProduct.useMutation({
+    onSuccess: () => router.push("/mes-produit"),
+  });
+
   return (
     <dialog id="delete_modal" className="modal">
       <form method="dialog" className="modal-box">
@@ -11,7 +25,12 @@ const DeleteModal = () => {
         <div className="modal-action">
           {/* if there is a button in form, it will close the modal */}
           <button className="btn">Annuler</button>
-          <button className="btn-primary btn">Confirmer</button>
+          <button
+            className="btn-primary btn"
+            onClick={() => deleteProduct({ id: productId })}
+          >
+            Confirmer
+          </button>
         </div>
       </form>
     </dialog>

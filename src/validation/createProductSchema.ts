@@ -1,11 +1,13 @@
-import { string, z } from "zod";
+import { z } from "zod";
 
 export const createProductSchema = z.object({
-  type: string({
-    required_error: "Veuillez choisir un type de produit.",
-  }).refine((val) => {
-    return val === "Habillment" || val === "Alimentaire";
-  }, "Veuillez choisir un type de produit."),
+  type: z
+    .string({
+      required_error: "Veuillez choisir un type de produit.",
+    })
+    .refine((val) => {
+      return val === "Habillment" || val === "Alimentaire";
+    }, "Veuillez choisir un type de produit."),
 
   name: z
     .string({
