@@ -39,7 +39,10 @@ const Navbar = () => {
               className="dropdown-content menu rounded-box menu-sm z-[1] mt-3 w-52 bg-base-100 p-2 shadow"
             >
               <li>
-                <Link href="/mes-produit">Mes Produit</Link>
+                <Link href="/mes-produits">Mes Produit</Link>
+              </li>
+              <li>
+                <Link href="/mes-produits">Mes Commandes</Link>
               </li>
               <li>
                 <span onClick={() => void signOut()}>Logout</span>

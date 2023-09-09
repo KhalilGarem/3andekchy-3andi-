@@ -54,7 +54,7 @@ const ContactForm = () => {
             <img
               src="/images/dejrba-hood.jpg"
               alt="dejrba-hood"
-              className="rounded-box w-[55%]"
+              className="rounded-box w-[70%]"
             />
           </div>
         </div>
