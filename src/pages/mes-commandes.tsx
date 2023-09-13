@@ -18,7 +18,6 @@ export default function MesCommandes() {
         {/* Art Section */}
         <ArtSection />
         {/* Dashboard */}
-        <Dashboard />
       </main>
     </>
   );

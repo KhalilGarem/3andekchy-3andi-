@@ -1,12 +1,24 @@
 import Head from "next/head";
 import ArtSection from "~/components/mes-produit/art-section";
 import Dashboard from "~/components/mes-produit/dashboard";
+import PageLoader from "~/components/ui/page-loader";
+import { api } from "~/utils/api";
 
 /**
  * Page Mes Produits
  * Une page dynamic contient les produit alimentaire
  */
 export default function MesProduits() {
+  const { data: products, status } = api.product.getProductsByUser.useQuery();
+
+  if (status === "loading") {
+    return <PageLoader />;
+  }
+
+  if (!products) {
+    return null;
+  }
+
   return (
     <>
       <Head>
@@ -18,7 +30,7 @@ export default function MesProduits() {
         {/* Art Section */}
         <ArtSection />
         {/* Dashboard */}
-        <Dashboard />
+        <Dashboard products={products} />
       </main>
     </>
   );

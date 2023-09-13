@@ -10,7 +10,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ productId }) => {
   const router = useRouter();
 
   const { mutate: deleteProduct } = api.product.deleteProduct.useMutation({
-    onSuccess: () => router.push("/mes-produit"),
+    onSuccess: () => router.push("/mes-produits"),
   });
 
   return (

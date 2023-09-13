@@ -32,12 +32,12 @@ model Image {
 }
 
 model Basket {
-    id         String       @id @default(cuid())
-    userId     String       @unique
-    user       User         @relation(fields: [userId], references: [id])
-    createdAt  DateTime     @default(now())
-    updatedAt  DateTime     @updatedAt
-    BasketItem BasketItem[]
+    id          String       @id @default(cuid())
+    userId      String       @unique
+    user        User         @relation(fields: [userId], references: [id])
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+    basketItems BasketItem[]
 }
 
 model BasketItem {
@@ -90,7 +90,7 @@ model User {
     sessions      Session[]
     Product       Product[]
     role          String    @default("user")
-    Basket        Basket[]
+    basket        Basket?
 }
 
 model VerificationToken {

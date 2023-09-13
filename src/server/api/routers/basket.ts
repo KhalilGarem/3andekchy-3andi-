@@ -3,6 +3,27 @@ import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { addProductToBasketSchema } from "~/validation/basketSchema";
 
 export const basketRouter = createTRPCRouter({
+  // Get the basket of the user
+  getBasket: protectedProcedure.query(async ({ ctx }) => {
+    const basket = await ctx.prisma.basket.findFirst({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      include: {
+        basketItems: {
+          include: {
+            product: {
+              include: {
+                image: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    return basket;
+  }),
+
   // Add a product to the basket mutation
   addProductToBasket: protectedProcedure
     .input(addProductToBasketSchema)

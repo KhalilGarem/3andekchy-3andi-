@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import AddToBasket from "~/components/produit/add-to-basket";
 import ArtSection from "~/components/produit/art-section";
+import PageLoader from "~/components/ui/page-loader";
 import { api } from "~/utils/api";
 
 /**
@@ -17,9 +18,13 @@ export default function Product() {
   const { data: session } = useSession();
 
   // Fetch the product data based on the provided id
-  const { data: product } = api.product.getProductById.useQuery({
+  const { data: product, status } = api.product.getProductById.useQuery({
     id: query.id as string,
   });
+
+  if (status === "loading") {
+    return <PageLoader />;
+  }
 
   if (!product) {
     return <div>404 Product not found</div>;

@@ -1,11 +1,12 @@
-import { api } from "~/utils/api";
+import { RouterOutputs, api } from "~/utils/api";
 import DashboardRow from "./dashboard-row";
+import { Image, Product, User } from "@prisma/client";
 
-const Dashboard = () => {
-  const { data: products } = api.product.getProductsByUser.useQuery();
+interface DashboardProps {
+  products: RouterOutputs["product"]["getProductsByUser"];
+}
 
-  console.log(products);
-
+const Dashboard: React.FC<DashboardProps> = ({ products }) => {
   if (products?.length === 0) {
     return (
       <div className="bg-white px-32 py-32 text-center">
