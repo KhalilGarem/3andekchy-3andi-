@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import AddToBasket from "~/components/produit/add-to-basket";
 import ArtSection from "~/components/produit/art-section";
 import { api } from "~/utils/api";
 
@@ -102,11 +103,20 @@ export default function Product() {
                   Supprimer ce produit
                 </button>
               ) : (
-                <button className="btn-primary btn">إشري تربح</button>
+                <button
+                  className="btn-primary btn"
+                  onClick={() => window.add_to_basket_modal.showModal()}
+                >
+                  إشري تربح
+                </button>
               )}
             </div>
           </div>
         </div>
+        <AddToBasket
+          productId={product.id}
+          onCloseAddToBasketModal={() => window.add_to_basket_modal.close()}
+        />
       </main>
     </>
   );

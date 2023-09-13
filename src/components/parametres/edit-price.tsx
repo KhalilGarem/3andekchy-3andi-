@@ -59,7 +59,7 @@ const EditPrice: React.FC<EditPriceProps> = ({
         <div className="w-full py-8">
           <input
             type="text"
-            placeholder="Entrez le nouveau nom ici ..."
+            placeholder="Entrez le nouveau prix ici ..."
             className="input-bordered input-primary input w-full"
             {...register("price", { valueAsNumber: true })}
           />

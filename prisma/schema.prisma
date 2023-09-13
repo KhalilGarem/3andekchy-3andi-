@@ -8,17 +8,18 @@ datasource db {
 }
 
 model Product {
-    id          String   @id @default(cuid())
+    id          String       @id @default(cuid())
     type        String
     name        String
     price       Float
     quantity    Int
     description String
     image       Image?
-    owner       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId      String
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
+    owner       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt   DateTime     @default(now())
+    updatedAt   DateTime     @updatedAt
+    BasketItem  BasketItem[]
 }
 
 model Image {
@@ -28,6 +29,28 @@ model Image {
     productId String   @unique
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model Basket {
+    id         String       @id @default(cuid())
+    userId     String       @unique
+    user       User         @relation(fields: [userId], references: [id])
+    createdAt  DateTime     @default(now())
+    updatedAt  DateTime     @updatedAt
+    BasketItem BasketItem[]
+}
+
+model BasketItem {
+    id        String   @id @default(cuid())
+    basketId  String
+    basket    Basket   @relation(fields: [basketId], references: [id], onDelete: Cascade)
+    productId String
+    product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+    quantity  Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([basketId, productId])
 }
 
 // Necessary for Next auth
@@ -67,6 +90,7 @@ model User {
     sessions      Session[]
     Product       Product[]
     role          String    @default("user")
+    Basket        Basket[]
 }
 
 model VerificationToken {

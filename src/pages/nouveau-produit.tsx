@@ -43,7 +43,7 @@ export default function NouveauProduit() {
     onSuccess: () => {
       setImage([]);
       reset();
-      router.push("/mes-produit");
+      router.push("/mes-produits");
     },
   });
 

@@ -9,16 +9,6 @@ import EditPrice from "~/components/parametres/edit-price";
 import EditQuantity from "~/components/parametres/edit-quantity";
 import { api } from "~/utils/api";
 
-declare global {
-  interface Window {
-    delete_modal: any;
-    edit_name_modal: any;
-    edit_description_modal: any;
-    edit_price_modal: any;
-    edit_quantity_modal: any;
-  }
-}
-
 /**
  * Page Produit
  * Une page static contient les infos du produit

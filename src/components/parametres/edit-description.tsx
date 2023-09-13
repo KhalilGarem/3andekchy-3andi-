@@ -59,7 +59,7 @@ const EditDescription: React.FC<EditDescriptionProps> = ({
         </h3>
         <div className="w-full py-8">
           <textarea
-            placeholder="Entrez le nouveau nom ici ..."
+            placeholder="Entrez la nouveau description ici ..."
             className="textarea-bordered textarea-primary textarea h-32 w-full"
             {...register("description")}
           />

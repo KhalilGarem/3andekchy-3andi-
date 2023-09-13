@@ -54,12 +54,12 @@ const EditQuantity: React.FC<EditQuantityProps> = ({
         className="modal-box"
       >
         <h3 className="font-amaranth text-lg font-bold text-primary">
-          Modifier le prix du produit
+          Modifier la quantité du produit
         </h3>
         <div className="w-full py-8">
           <input
             type="text"
-            placeholder="Entrez le nouveau nom ici ..."
+            placeholder="Entrez la nouveau quantité ici ..."
             className="input-bordered input-primary input w-full"
             {...register("quantity", { valueAsNumber: true })}
           />
