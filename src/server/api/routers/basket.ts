@@ -80,4 +80,97 @@ export const basketRouter = createTRPCRouter({
       });
       return newBasketItem;
     }),
+  increaseBasketItemQuantity: protectedProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input }) => {
+      const basketItem = await ctx.prisma.basketItem.findFirst({
+        include: {
+          basket: {
+            select: {
+              userId: true,
+            },
+          },
+        },
+        where: {
+          id: input.id,
+        },
+      });
+      if (!basketItem) {
+        throw new Error("Basket item not found");
+      }
+      if (basketItem.basket.userId !== ctx.session.user.id) {
+        throw new Error("You cannot edit this basket item");
+      }
+      const updatedBasketItem = await ctx.prisma.basketItem.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          quantity: basketItem.quantity + 1,
+        },
+      });
+      return updatedBasketItem;
+    }),
+  decreaseBasketItemQuantity: protectedProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input }) => {
+      const basketItem = await ctx.prisma.basketItem.findFirst({
+        include: {
+          basket: {
+            select: {
+              userId: true,
+            },
+          },
+        },
+        where: {
+          id: input.id,
+        },
+      });
+      if (!basketItem) {
+        throw new Error("Basket item not found");
+      }
+      if (basketItem.basket.userId !== ctx.session.user.id) {
+        throw new Error("You cannot edit this basket item");
+      }
+      if (basketItem.quantity === 1) {
+        throw new Error("Quantity cannot be less than 1");
+      }
+      const updatedBasketItem = await ctx.prisma.basketItem.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          quantity: basketItem.quantity - 1,
+        },
+      });
+      return updatedBasketItem;
+    }),
+  deleteBasketItem: protectedProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input }) => {
+      const basketItem = await ctx.prisma.basketItem.findFirst({
+        include: {
+          basket: {
+            select: {
+              userId: true,
+            },
+          },
+        },
+        where: {
+          id: input.id,
+        },
+      });
+      if (!basketItem) {
+        throw new Error("Basket item not found");
+      }
+      if (basketItem.basket.userId !== ctx.session.user.id) {
+        throw new Error("You cannot delete this basket item");
+      }
+      const deletedBasketItem = await ctx.prisma.basketItem.delete({
+        where: {
+          id: input.id,
+        },
+      });
+      return deletedBasketItem;
+    }),
 });

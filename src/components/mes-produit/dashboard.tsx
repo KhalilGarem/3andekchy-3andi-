@@ -1,6 +1,5 @@
-import { RouterOutputs, api } from "~/utils/api";
+import { RouterOutputs } from "~/utils/api";
 import DashboardRow from "./dashboard-row";
-import { Image, Product, User } from "@prisma/client";
 
 interface DashboardProps {
   products: RouterOutputs["product"]["getProductsByUser"];

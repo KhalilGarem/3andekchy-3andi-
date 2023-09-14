@@ -15,6 +15,7 @@ declare global {
     edit_quantity_modal: any;
     // Basket models
     add_to_basket_modal: any;
+    delete_from_basket_modal: any;
   }
 }
 

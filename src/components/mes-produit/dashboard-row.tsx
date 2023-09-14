@@ -49,7 +49,7 @@ const DashboardRow: React.FC<DashboardRowProps> = ({
         <div className="font-roboto text-lg font-bold capitalize">{type}</div>
       </td>
       <th>
-        <Link href={`/parametres/${id}`} className="btn-ghost btn-sm btn">
+        <Link href={`/parametres/${id}`} className="btn-ghost btn">
           <Settings className="text-primary" />
         </Link>
       </th>

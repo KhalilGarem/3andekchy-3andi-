@@ -1,11 +1,17 @@
 import { RouterOutputs } from "~/utils/api";
 import BaskeRow from "./basket-row";
+import DeleteFromBasket from "./delete-from-basket";
+import { useState } from "react";
 
 interface BasketProps {
   basket: RouterOutputs["basket"]["getBasket"];
 }
 
 const Basket: React.FC<BasketProps> = ({ basket }) => {
+  const [confirmDeleteBasketItem, setConfirmDeleteBasketItem] = useState<
+    string | null
+  >(null);
+
   if (basket?.basketItems.length === 0) {
     return (
       <div className="bg-white px-32 py-32 text-center">
@@ -31,10 +37,15 @@ const Basket: React.FC<BasketProps> = ({ basket }) => {
             {/* Rows */}
             {basket?.basketItems.map((basketItem) => (
               <BaskeRow
+                key={basketItem.id}
                 image={basketItem.product.image?.url || ""}
                 name={basketItem.product.name}
                 price={basketItem.product.price}
                 quantity={basketItem.quantity}
+                confirmDeleteBasketItem={() => {
+                  setConfirmDeleteBasketItem(basketItem.id);
+                  window.delete_from_basket_modal.showModal();
+                }}
               />
             ))}
           </tbody>
@@ -42,6 +53,13 @@ const Basket: React.FC<BasketProps> = ({ basket }) => {
           <tfoot></tfoot>
         </table>
       </div>
+      <DeleteFromBasket
+        basketItemId={confirmDeleteBasketItem}
+        onCloseDeleteFromBasket={() => {
+          window.delete_from_basket_modal.close();
+          setConfirmDeleteBasketItem(null);
+        }}
+      />
     </div>
   );
 };
