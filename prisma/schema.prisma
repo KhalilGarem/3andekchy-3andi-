@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     url      = env("DATABASE_URL")
 }
 
@@ -20,6 +20,7 @@ model Product {
     createdAt   DateTime     @default(now())
     updatedAt   DateTime     @updatedAt
     BasketItem  BasketItem[]
+    orders      Order[]
 }
 
 model Image {
@@ -51,6 +52,18 @@ model BasketItem {
     updatedAt DateTime @updatedAt
 
     @@unique([basketId, productId])
+}
+
+model Order {
+    id        String   @id @default(cuid())
+    quantity  Int
+    phone     String
+    productId String
+    product   Product  @relation(fields: [productId], references: [id])
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
@@ -91,6 +104,7 @@ model User {
     Product       Product[]
     role          String    @default("user")
     basket        Basket?
+    orders        Order[]
 }
 
 model VerificationToken {

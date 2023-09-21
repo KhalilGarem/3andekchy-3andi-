@@ -1,7 +1,9 @@
-import { RouterOutputs } from "~/utils/api";
+import { RouterOutputs, api } from "~/utils/api";
 import BaskeRow from "./basket-row";
 import DeleteFromBasket from "./delete-from-basket";
 import { useState } from "react";
+import TotalSection from "./total-section";
+import OrderBasket from "./order-basket";
 
 interface BasketProps {
   basket: RouterOutputs["basket"]["getBasket"];
@@ -21,7 +23,7 @@ const Basket: React.FC<BasketProps> = ({ basket }) => {
   }
 
   return (
-    <div className="bg-white px-32 py-12">
+    <div className="space-y-4 bg-white px-32 py-12">
       <div className="overflow-x-auto">
         <table className="table">
           {/* head */}
@@ -38,6 +40,7 @@ const Basket: React.FC<BasketProps> = ({ basket }) => {
             {basket?.basketItems.map((basketItem) => (
               <BaskeRow
                 key={basketItem.id}
+                id={basketItem.id}
                 image={basketItem.product.image?.url || ""}
                 name={basketItem.product.name}
                 price={basketItem.product.price}
@@ -53,6 +56,16 @@ const Basket: React.FC<BasketProps> = ({ basket }) => {
           <tfoot></tfoot>
         </table>
       </div>
+      <TotalSection
+        basket={basket}
+        onOrderBasket={() => window.order_basket_modal.showModal()}
+      />
+      <OrderBasket
+        basketId={basket?.id}
+        onCloseOrderBasket={() => {
+          window.order_basket_modal.close();
+        }}
+      />
       <DeleteFromBasket
         basketItemId={confirmDeleteBasketItem}
         onCloseDeleteFromBasket={() => {

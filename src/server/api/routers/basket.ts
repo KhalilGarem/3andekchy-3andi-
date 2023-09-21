@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { addProductToBasketSchema } from "~/validation/basketSchema";
+import {
+  addProductToBasketSchema,
+  orderBasketSchema,
+} from "~/validation/basketSchema";
 
 export const basketRouter = createTRPCRouter({
   // Get the basket of the user
@@ -172,5 +175,103 @@ export const basketRouter = createTRPCRouter({
         },
       });
       return deletedBasketItem;
+    }),
+  orderBasket: protectedProcedure
+    .input(orderBasketSchema)
+    .mutation(async ({ ctx, input }) => {
+      const basket = await ctx.prisma.basket.findFirst({
+        where: {
+          userId: ctx.session.user.id,
+        },
+        include: {
+          basketItems: {
+            include: {
+              product: true,
+            },
+          },
+        },
+      });
+      if (!basket) {
+        throw new Error("Basket not found");
+      }
+      if (basket.userId !== ctx.session.user.id) {
+        throw new Error("You cannot order this basket");
+      }
+      basket.basketItems.forEach(
+        async (basketItem) =>
+          await ctx.prisma.order.create({
+            data: {
+              user: {
+                connect: {
+                  id: ctx.session.user.id,
+                },
+              },
+              product: {
+                connect: {
+                  id: basketItem.product.id,
+                },
+              },
+              quantity: basketItem.quantity,
+              phone: input.phone,
+            },
+          })
+      );
+
+      const deletedBasket = await ctx.prisma.basket.delete({
+        where: {
+          id: basket.id,
+        },
+      });
+      return deletedBasket;
+    }),
+  getUserOrders: protectedProcedure.query(async ({ ctx }) => {
+    const orders = await ctx.prisma.order.findMany({
+      where: {
+        product: {
+          userId: ctx.session.user.id,
+        },
+      },
+      include: {
+        product: {
+          include: {
+            image: true,
+          },
+        },
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    return orders;
+  }),
+  deleteOrder: protectedProcedure
+    .input(z.object({ id: z.string().cuid() }))
+    .mutation(async ({ ctx, input }) => {
+      const order = await ctx.prisma.order.findFirst({
+        where: {
+          id: input.id,
+        },
+        include: {
+          product: {
+            select: {
+              userId: true,
+            },
+          },
+        },
+      });
+      if (!order) {
+        throw new Error("Order not found");
+      }
+      if (order.product.userId !== ctx.session.user.id) {
+        throw new Error("You cannot delete this order");
+      }
+      const deletedOrder = await ctx.prisma.order.delete({
+        where: {
+          id: input.id,
+        },
+      });
+      return deletedOrder;
     }),
 });

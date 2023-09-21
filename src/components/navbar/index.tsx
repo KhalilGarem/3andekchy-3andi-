@@ -42,7 +42,7 @@ const Navbar = () => {
                 <Link href="/mes-produits">Mes Produit</Link>
               </li>
               <li>
-                <Link href="/mes-produits">Mes Commandes</Link>
+                <Link href="/mes-commandes">Mes Commandes</Link>
               </li>
               <li>
                 <span onClick={() => void signOut()}>Logout</span>

@@ -1,12 +1,23 @@
 import Head from "next/head";
-import ArtSection from "~/components/mes-produit/art-section";
-import Dashboard from "~/components/mes-produit/dashboard";
+import ArtSection from "~/components/mes-commandes/art-section";
+import Dashboard from "~/components/mes-commandes/dashboard";
+import PageLoader from "~/components/ui/page-loader";
+import { api } from "~/utils/api";
 
 /**
  * Page Mes Commandes
- * Une page dynamic contient les produit alimentaire
  */
 export default function MesCommandes() {
+  const { data: orders, status } = api.basket.getUserOrders.useQuery();
+
+  if (status === "loading") {
+    return <PageLoader />;
+  }
+
+  if (!orders) {
+    return null;
+  }
+
   return (
     <>
       <Head>
@@ -18,6 +29,7 @@ export default function MesCommandes() {
         {/* Art Section */}
         <ArtSection />
         {/* Dashboard */}
+        <Dashboard orders={orders} />
       </main>
     </>
   );

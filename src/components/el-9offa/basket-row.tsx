@@ -1,7 +1,9 @@
 import { MinusCircle, PlusCircle, Trash } from "lucide-react";
 import React from "react";
+import { api } from "~/utils/api";
 
 interface BaskeRowProps {
+  id: string;
   image: string;
   name: string;
   price: number;
@@ -10,12 +12,28 @@ interface BaskeRowProps {
 }
 
 const BaskeRow: React.FC<BaskeRowProps> = ({
+  id,
   image,
   name,
   price,
   quantity,
   confirmDeleteBasketItem,
 }) => {
+  const ctx = api.useContext();
+
+  const { mutate: increaseBasketItemQuantity } =
+    api.basket.increaseBasketItemQuantity.useMutation({
+      onSuccess: () => {
+        ctx.basket.getBasket.invalidate();
+      },
+    });
+  const { mutate: decreaseBasketItemQuantity } =
+    api.basket.decreaseBasketItemQuantity.useMutation({
+      onSuccess: () => {
+        ctx.basket.getBasket.invalidate();
+      },
+    });
+
   return (
     <tr>
       {/* Image */}
@@ -35,11 +53,17 @@ const BaskeRow: React.FC<BaskeRowProps> = ({
       {/* Quantité */}
       <td>
         <div className="flex items-center gap-3 font-roboto text-xl font-bold capitalize">
-          <button className="btn-ghost btn-sm btn-circle btn">
+          <button
+            className="btn-ghost btn-sm btn-circle btn"
+            onClick={() => decreaseBasketItemQuantity({ id })}
+          >
             <MinusCircle className="h-5 w-5 text-primary" />
           </button>
           {quantity}
-          <button className="btn-ghost btn-sm btn-circle btn">
+          <button
+            className="btn-ghost btn-sm btn-circle btn"
+            onClick={() => increaseBasketItemQuantity({ id })}
+          >
             <PlusCircle className="h-5 w-5 text-primary" />
           </button>
         </div>
